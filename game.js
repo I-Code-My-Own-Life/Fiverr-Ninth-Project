@@ -10,6 +10,10 @@ let walls = [];
 // This here `-` indicates blank space : 
 // `M` indicates our Player here :
 // And lastly `E` indicates our Enemy character : 
+function randomIntFromInterval(min,max)
+{
+    return Math.floor( Math.random()*  ( max - min + 1 ) + min );
+}
 
 let map = [
     "w","w","w","w","w","w","w","w","w","w","w","-","w","-","w","w","w","w","w","w",
@@ -44,26 +48,9 @@ function setup(){
 
 function draw(){
     background("white");
-    // for(let i = 0; i < walls.length; i++){
-    //     walls[i].draw();
-    // }
     drawMap();
     // console.log(frameRate());
 }
-// Ok, so let's design the class Wall : 
-class Wall{
-    constructor(x,y){
-        this.x = x;
-        this.y = y;
-        this.width = TileWidth;
-        this.height = TileHeight;
-    }
-    draw(){
-        fill(139,69,19);
-        rect(this.x,this.y,this.width,this.height);
-    }
-}
-let wall = new Wall(80,150);
 
 class Player{
     constructor(x,y,width,height,dx,dy){
@@ -104,8 +91,8 @@ function drawMap(){
             if(map[index] == "+"){
                 fill("yellow");
                 strokeWeight(1);
-                pelletHeight = sin(pelletIncrement) * 10
-                pelletWidth = cos(pelletIncrement) * 10
+                pelletHeight = (sin(pelletIncrement) * 4) + 4 
+                pelletWidth = (cos(pelletIncrement) * 4) + 7 
                 ellipse((TileWidth * col) + 10,(TileHeight * row) + 10,pelletWidth,pelletHeight);
             }
             // Enemy : 
@@ -120,9 +107,13 @@ function drawMap(){
             }
             // Walls : 
             else if(map[index] == "w"){
-                walls.push(new Wall(TileWidth * col,TileHeight * row));
                 fill(139,69,19);
                 rect(TileWidth * col,TileHeight * row,TileWidth,TileHeight);
+            }
+            // Freeze Power : 
+            else if(map[index] == "p"){
+                fill(143, 235, 204);
+                ellipse((TileWidth * col) + 10,(TileHeight * row) + 10,pelletWidth,pelletHeight);
             }
             console.log(frameRate())
         }
